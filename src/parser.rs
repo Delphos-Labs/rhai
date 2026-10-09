@@ -287,7 +287,7 @@ impl ParseSettings {
 pub fn make_anonymous_fn(hash: u64) -> crate::Identifier {
     use std::fmt::Write;
 
-    let mut buf = crate::Identifier::new_const();
+    let mut buf = crate::Identifier::const_new("");
     write!(&mut buf, "{}{hash:016x}", crate::engine::FN_ANONYMOUS).unwrap();
     buf
 }
@@ -2482,7 +2482,7 @@ impl Engine {
                 let (token, pos) = state.input.peek().unwrap();
                 (token.into(), *pos)
             } else {
-                (SmartString::new_const(), settings.pos)
+                (SmartString::const_new(""), settings.pos)
             };
 
             let settings = settings.level_up()?;
@@ -3249,7 +3249,7 @@ impl Engine {
         let comments = {
             let mut comments = StaticVec::<SmartString>::new_const();
             let mut comments_pos = Position::NONE;
-            let mut buf = SmartString::new_const();
+            let mut buf = SmartString::const_new("");
 
             // Handle doc-comments.
             while let (Token::Comment(ref comment), pos) = state.input.peek().unwrap() {
